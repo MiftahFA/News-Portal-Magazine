@@ -40,19 +40,15 @@
                                     <br>
                                     <i><b style="color: #6777ef">{{ session()->get('success') }}</b></i>
                                 @endif
-                                <form method="POST" action="{{ route('admin.handle-login') }}" class="needs-validation"
-                                    novalidate="">
+                                <form method="POST" action="{{ route('admin.handle-login') }}">
                                     @csrf
                                     <div class="form-group">
                                         <label for="email">{{ __('Email') }}</label>
                                         <input id="email" type="email" class="form-control" name="email"
-                                            tabindex="1" required autofocus>
+                                            tabindex="1" autofocus>
                                         @error('email')
                                             <code>{{ $message }}</code>
                                         @enderror
-                                        <div class="invalid-feedback">
-                                            {{ __('Please fill in your email') }}
-                                        </div>
                                     </div>
 
                                     <div class="form-group">
@@ -65,10 +61,10 @@
                                             </div>
                                         </div>
                                         <input id="password" type="password" class="form-control" name="password"
-                                            tabindex="2" required>
-                                        <div class="invalid-feedback">
-                                            {{ __('please fill in your password') }}
-                                        </div>
+                                            tabindex="2">
+                                        @error('password')
+                                            <code>{{ $message }}</code>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group">

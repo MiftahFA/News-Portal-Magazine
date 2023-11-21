@@ -11,7 +11,7 @@
             <div class="col-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h4>{{ _('All Language') }}</h4>
+                        <h4>{{ __('All Language') }}</h4>
                         <div class="card-header-action">
                             <a href="{{ route('admin.language.create') }}" class="btn btn-primary">
                                 <i class="fas fa-plus"></i> {{ _('Create New') }}
@@ -34,10 +34,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $count = 1;
+                                    @endphp
                                     @foreach ($languages as $language)
                                         <tr>
-                                            <td>
-                                                {{ $language->id }}
+                                            <td class="text-center">
+                                                {{ $count++ }}
                                             </td>
                                             <td>{{ $language->name }}</td>
                                             <td>{{ $language->lang }}</td>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthenticationController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LanguageController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::put('profile-password-update/{id}', [ProfileController::class, 'passwordUpdate'])->name('profile-password.update');
     Route::resource('profile', ProfileController::class);
 
-    //Language
     Route::resource('language', LanguageController::class);
     Route::resource('category', CategoryController::class);
+
+    Route::get('fetch-news-category', [NewsController::class, 'fetchCategory'])->name('fetch-news-category');
+    Route::get('toggle-news-status', [NewsController::class, 'toggleNewsStatus'])->name('toggle-news-status');
+    Route::get('news-copy/{id}', [NewsController::class, 'copyNews'])->name('news-copy');
+    // Route::get('pending-news', [NewsController::class, 'pendingNews'])->name('pending.news');
+    // Route::put('approve-news', [NewsController::class, 'approveNews'])->name('approve.news');
+    Route::resource('news', NewsController::class);
 });

@@ -20,11 +20,9 @@ function getLangauge(): string
         try {
             $language = Language::where('default', 1)->first();
             setLanguage($language->lang);
-
             return $language->lang;
         } catch (\Throwable $th) {
             setLanguage('en');
-
             return $language->lang;
         }
     }

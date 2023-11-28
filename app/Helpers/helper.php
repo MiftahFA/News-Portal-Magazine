@@ -12,7 +12,7 @@ function formatTags(array $tags): String
 }
 
 /** get selected language from session */
-function getLangauge(): string
+function getLanguage(): string
 {
     if (session()->has('language')) {
         return session('language');
@@ -23,7 +23,7 @@ function getLangauge(): string
             return $language->lang;
         } catch (\Throwable $th) {
             setLanguage('en');
-            return $language->lang;
+            return 'en';
         }
     }
 }

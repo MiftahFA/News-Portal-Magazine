@@ -22,7 +22,7 @@ class News extends Model
     public function scopeWithLocalize($query)
     {
         return $query->where([
-            'language' => getLangauge()
+            'language' => getLanguage()
         ]);
     }
 

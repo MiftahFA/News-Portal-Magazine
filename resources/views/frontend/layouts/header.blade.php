@@ -31,7 +31,7 @@
                             <select id="site-language">
                                 @foreach ($languages as $language)
                                     <option value="{{ $language->lang }}"
-                                        {{ getLangauge() === $language->lang ? 'selected' : '' }}>{{ $language->name }}
+                                        {{ getLanguage() === $language->lang ? 'selected' : '' }}>{{ $language->name }}
                                     </option>
                                 @endforeach
                             </select>

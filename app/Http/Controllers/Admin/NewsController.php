@@ -73,15 +73,11 @@ class NewsController extends Controller
             $item->name = $tag;
             $item->language = $news->language;
             $item->save();
-
             $tagIds[] = $item->id;
         }
 
         $news->tags()->attach($tagIds);
-
-
         toast(__('Created Successfully!'), 'success')->width('330');
-
         return redirect()->route('admin.news.index');
     }
 
@@ -94,7 +90,6 @@ class NewsController extends Controller
             $news = News::findOrFail($request->id);
             $news->{$request->name} = $request->status;
             $news->save();
-
             return response(['status' => 'success', 'message' => __('Updated successfully!')]);
         } catch (\Throwable $th) {
             throw $th;
@@ -162,15 +157,11 @@ class NewsController extends Controller
             $item->name = $tag;
             $item->language = $news->language;
             $item->save();
-
             $tagIds[] = $item->id;
         }
 
         $news->tags()->attach($tagIds);
-
-
         toast(__('Update Successfully!'), 'success')->width('330');
-
         return redirect()->route('admin.news.index');
     }
 
@@ -186,7 +177,6 @@ class NewsController extends Controller
         }
         $news->tags()->delete();
         $news->delete();
-
         return response(['status' => 'success', 'message' => __('Deleted Successfully!')]);
     }
 
@@ -198,9 +188,7 @@ class NewsController extends Controller
         $news = News::findOrFail($id);
         $copyNews = $news->replicate();
         $copyNews->save();
-
         toast(__('Copied Successfully!'), 'success');
-
         return redirect()->back();
     }
 }

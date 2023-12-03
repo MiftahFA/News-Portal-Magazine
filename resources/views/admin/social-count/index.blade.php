@@ -5,13 +5,13 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ __('Categories') }}</h1>
+            <h1>{{ __('Social Count') }}</h1>
         </div>
         <div class="card card-primary">
             <div class="card-header">
-                <h4>{{ __('All Categories') }}</h4>
+                <h4>{{ __('All Social Counts') }}</h4>
                 <div class="card-header-action">
-                    <a href="{{ route('admin.category.create') }}" class="btn btn-primary">
+                    <a href="{{ route('admin.social-count.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus"></i> {{ __('Create new') }}
                     </a>
                 </div>
@@ -29,9 +29,7 @@
                 <div class="tab-content tab-bordered" id="myTab3Content">
                     @foreach ($languages as $language)
                         @php
-                            $categories = \App\Models\Category::where('language', $language->lang)
-                                ->orderByDesc('id')
-                                ->get();
+                            $socialCounts = \App\Models\SocialCount::where('language', $language->lang)->get();
                         @endphp
                         <div class="tab-pane fade show {{ $loop->index === 0 ? 'active' : '' }}"
                             id="home-{{ $language->lang }}" role="tabpanel" aria-labelledby="home-tab2">
@@ -43,39 +41,32 @@
                                                 <th class="text-center">
                                                     #
                                                 </th>
-                                                <th>{{ __('Name') }}</th>
-                                                <th>{{ __('Language Code') }}</th>
-                                                <th>{{ __('In Nav') }}</th>
+                                                <th>{{ __('Icon') }}</th>
+                                                <th>{{ __('Link') }}</th>
                                                 <th>{{ __('Status') }}</th>
+                                                <th>{{ __('language') }}</th>
                                                 <th>{{ __('Action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($categories as $category)
+                                            @foreach ($socialCounts as $socialCount)
                                                 <tr>
                                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                                    <td>{{ $category->name }}</td>
-                                                    <td>{{ $category->language }}</td>
-                                                    <td>
-                                                        @if ($category->show_at_nav == 1)
-                                                            <span class="badge badge-primary">{{ __('Yes') }}</span>
-                                                        @else
-                                                            <span class="badge badge-danger">{{ __('No') }}</span>
-                                                        @endif
-
+                                                    <td><i style="font-size: 20px;" class="{{ $socialCount->icon }}"></i>
                                                     </td>
+                                                    <td>{{ $socialCount->url }}</i></td>
                                                     <td>
-                                                        @if ($category->status == 1)
+                                                        @if ($socialCount->status == 1)
                                                             <span class="badge badge-success">{{ __('Yes') }}</span>
                                                         @else
                                                             <span class="badge badge-danger">{{ __('No') }}</span>
                                                         @endif
-
                                                     </td>
+                                                    <td>{{ $socialCount->language }}</td>
                                                     <td>
-                                                        <a href="{{ route('admin.category.edit', $category->id) }}"
+                                                        <a href="{{ route('admin.social-count.edit', $socialCount->id) }}"
                                                             class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                                        <a href="{{ route('admin.category.destroy', $category->id) }}"
+                                                        <a href="{{ route('admin.social-count.destroy', $socialCount->id) }}"
                                                             class="btn btn-danger delete-item"><i
                                                                 class="fas fa-trash-alt"></i></a>
                                                     </td>
@@ -92,59 +83,56 @@
         </div>
     </section>
 @endsection
-
 @push('scripts')
     <script src="{{ asset('admin/assets/modules/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('admin/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}">
     </script>
     <script src="{{ asset('admin/assets/modules/sweetalert/sweetalert.min.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            @foreach ($languages as $language)
-                $("#table-{{ $language->lang }}").DataTable({
-                    "columnDefs": [{
-                        "sortable": false,
-                        "targets": [2, 3]
-                    }]
-                });
-            @endforeach
-
-            $('.delete-item').on('click', function(e) {
-                e.preventDefault();
-                swal({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
-                        icon: 'warning',
-                        buttons: true,
-                        dangerMode: true,
-                    })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            let url = $(this).attr('href');
-                            $.ajax({
-                                method: 'DELETE',
-                                url: url,
-                                success: function(data) {
-                                    if (data.status === 'success') {
-                                        swal({
-                                            title: data.message,
-                                            icon: 'success',
-                                        }).then(() => {
-                                            location.reload();
-                                        });
-                                    } else if (data.status === 'error') {
-                                        swal(data.message, {
-                                            icon: 'error',
-                                        });
-                                    }
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error(error);
-                                }
-                            });
-                        }
-                    });
+        @foreach ($languages as $language)
+            $("#table-{{ $language->lang }}").dataTable({
+                "columnDefs": [{
+                    "sortable": false,
+                    "targets": [2, 3]
+                }]
             });
+        @endforeach
+
+        $('.delete-item').on('click', function(e) {
+            e.preventDefault();
+            swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        let url = $(this).attr('href');
+                        $.ajax({
+                            method: 'DELETE',
+                            url: url,
+                            success: function(data) {
+                                if (data.status === 'success') {
+                                    swal({
+                                        title: data.message,
+                                        icon: 'success',
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else if (data.status === 'error') {
+                                    swal(data.message, {
+                                        icon: 'error',
+                                    });
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+                    }
+                });
         });
     </script>
 @endpush

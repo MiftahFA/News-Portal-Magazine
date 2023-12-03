@@ -34,14 +34,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $count = 1;
-                                    @endphp
                                     @foreach ($languages as $language)
                                         <tr>
-                                            <td class="text-center">
-                                                {{ $count++ }}
-                                            </td>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $language->name }}</td>
                                             <td>{{ $language->lang }}</td>
 

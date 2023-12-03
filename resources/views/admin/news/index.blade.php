@@ -75,12 +75,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php
-                                                $count = 1;
-                                            @endphp
                                             @foreach ($news as $item)
                                                 <tr>
-                                                    <td class="text-center">{{ $count++ }}</td>
+                                                    <td class="text-center">{{ $loop->iteration }}</td>
                                                     <td>
                                                         <img src="{{ asset($item->image) }}" width="100" alt="">
                                                     </td>

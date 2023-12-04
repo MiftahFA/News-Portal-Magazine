@@ -481,14 +481,16 @@
                         </aside>
 
                         <!-- social media -->
-                        {{-- <aside class="wrapper__list__article">
+                        <aside class="wrapper__list__article">
                             <h4 class="border_section">{{ __('stay conected') }}</h4>
+                            <!-- widget Social media -->
                             <div class="wrap__social__media">
                                 @foreach ($socialCounts as $socialCount)
                                     <a href="{{ $socialCount->url }}" target="_blank">
                                         <div class="social__media__widget mt-2"
                                             style="background-color:{{ $socialCount->color }}">
-                                            <span class="social__media__widget-icon">
+                                            <span class="social__media__widget-icon text-center"
+                                                style="line-height: 30px">
                                                 <i class="{{ $socialCount->icon }}"></i>
                                             </span>
                                             <span class="social__media__widget-counter">
@@ -501,7 +503,7 @@
                                     </a>
                                 @endforeach
                             </div>
-                        </aside> --}}
+                        </aside>
                         <!-- End social media -->
 
                         <aside class="wrapper__list__article">

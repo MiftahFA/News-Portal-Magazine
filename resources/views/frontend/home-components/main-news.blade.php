@@ -506,7 +506,6 @@
                                                                         {{ date('M d, Y', strtotime($mostViewedNews->created_at)) }}
                                                                     </span>
                                                                 </li>
-
                                                             </ul>
                                                         </div>
                                                         <div class="card__post__title">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactMail;
 use App\Models\About;
 use App\Models\Ad;
 use App\Models\Category;
@@ -11,12 +12,14 @@ use App\Models\Contact;
 use App\Models\HomeSectionSetting;
 use Illuminate\Support\Facades\DB;
 use App\Models\News;
+use App\Models\RecivedMail;
 use App\Models\SocialCount;
 use App\Models\SocialLink;
 use App\Models\Subscriber;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -268,33 +271,29 @@ class HomeController extends Controller
         return view('frontend.contact', compact('contact', 'socials'));
     }
 
-    // public function handleContactFrom(Request $request)
-    // {
-    //     $request->validate([
-    //         'email' => ['required', 'email', 'max:255'],
-    //         'subject' => ['required', 'max:255'],
-    //         'message' => ['required', 'max:500']
-    //     ]);
+    public function handleContactFrom(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'subject' => 'required|max:255',
+            'message' => 'required|max:500'
+        ]);
 
-    //     try {
-    //         $toMail = Contact::where('language', 'en')->first();
+        try {
+            $toMail = Contact::where('language', 'en')->first();
 
-    //         /** Send Mail */
-    //         Mail::to($toMail->email)->send(new ContactMail($request->subject, $request->message, $request->email));
+            Mail::to($toMail->email)->send(new ContactMail($request->subject, $request->message, $request->email));
 
-    //         /** store the mail */
+            $mail = new RecivedMail();
+            $mail->email = $request->email;
+            $mail->subject = $request->subject;
+            $mail->message = $request->message;
+            $mail->save();
+        } catch (\Exception $e) {
+            toast(__($e->getMessage()));
+        }
 
-    //         $mail = new RecivedMail();
-    //         $mail->email = $request->email;
-    //         $mail->subject = $request->subject;
-    //         $mail->message = $request->message;
-    //         $mail->save();
-    //     } catch (\Exception $e) {
-    //         toast(__($e->getMessage()));
-    //     }
-
-    //     toast(__('frontend.Message sent successfully!'), 'success');
-
-    //     return redirect()->back();
-    // }
+        toast(__('Message sent successfully!'), 'success');
+        return redirect()->back();
+    }
 }

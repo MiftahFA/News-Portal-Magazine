@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
+use App\Models\Ad;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Contact;
 use App\Models\HomeSectionSetting;
 use Illuminate\Support\Facades\DB;
 use App\Models\News;
 use App\Models\SocialCount;
+use App\Models\SocialLink;
+use App\Models\Subscriber;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -76,7 +81,7 @@ class HomeController extends Controller
 
         $mostCommonTags = $this->mostCommonTags();
 
-        // $ad = Ad::first();
+        $ad = Ad::first();
 
         return view('frontend.home', compact(
             'breakingNews',
@@ -90,7 +95,7 @@ class HomeController extends Controller
             'mostViewedPosts',
             'socialCounts',
             'mostCommonTags',
-            // 'ad'
+            'ad'
         ));
     }
 
@@ -125,10 +130,9 @@ class HomeController extends Controller
             ->get();
 
         $socialCounts = SocialCount::where(['status' => 1, 'language' => getLanguage()])->get();
-        // $ad = Ad::first();
+        $ad = Ad::first();
 
-        // return view('frontend.news-details', compact('news', 'recentNews', 'mostCommonTags', 'nextPost', 'previousPost', 'relatedPosts', 'socialCounts', 'ad'));
-        return view('frontend.news-details', compact('news', 'recentNews', 'mostCommonTags', 'nextPost', 'previousPost', 'relatedPosts', 'socialCounts'));
+        return view('frontend.news-details', compact('news', 'recentNews', 'mostCommonTags', 'nextPost', 'previousPost', 'relatedPosts', 'socialCounts', 'ad'));
     }
 
     public function news(Request $request)
@@ -164,10 +168,9 @@ class HomeController extends Controller
 
         $categories = Category::where(['status' => 1, 'language' => getLanguage()])->get();
 
-        // $ad = Ad::first();
+        $ad = Ad::first();
 
-        // return view('frontend.news', compact('news', 'recentNews', 'mostCommonTags', 'categories', 'ad'));
-        return view('frontend.news', compact('news', 'recentNews', 'mostCommonTags', 'categories'));
+        return view('frontend.news', compact('news', 'recentNews', 'mostCommonTags', 'categories', 'ad'));
     }
 
     public function countView($news)
@@ -236,4 +239,62 @@ class HomeController extends Controller
         }
         return response(['status' => 'error', 'message' => __('Someting went wrong!')]);
     }
+
+    public function SubscribeNewsLetter(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|max:255|unique:subscribers,email'
+        ], [
+            'email.unique' => __('Email is already subscribed!')
+        ]);
+
+        $subscriber = new Subscriber();
+        $subscriber->email = $request->email;
+        $subscriber->save();
+
+        return response(['status' => 'success', 'message' => __('Subscribed successfully!')]);
+    }
+
+    public function about()
+    {
+        $about = About::where('language', getLanguage())->first();
+        return view('frontend.about', compact('about'));
+    }
+
+    public function contact()
+    {
+        $contact = Contact::where('language', getLanguage())->first();
+        $socials = SocialLink::where('status', 1)->get();
+        return view('frontend.contact', compact('contact', 'socials'));
+    }
+
+    // public function handleContactFrom(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => ['required', 'email', 'max:255'],
+    //         'subject' => ['required', 'max:255'],
+    //         'message' => ['required', 'max:500']
+    //     ]);
+
+    //     try {
+    //         $toMail = Contact::where('language', 'en')->first();
+
+    //         /** Send Mail */
+    //         Mail::to($toMail->email)->send(new ContactMail($request->subject, $request->message, $request->email));
+
+    //         /** store the mail */
+
+    //         $mail = new RecivedMail();
+    //         $mail->email = $request->email;
+    //         $mail->subject = $request->subject;
+    //         $mail->message = $request->message;
+    //         $mail->save();
+    //     } catch (\Exception $e) {
+    //         toast(__($e->getMessage()));
+    //     }
+
+    //     toast(__('frontend.Message sent successfully!'), 'success');
+
+    //     return redirect()->back();
+    // }
 }

@@ -28,11 +28,23 @@
     <meta name="twitter:description" content="@yield('meta_tw_description')" />
     <meta name="twitter:image" content="@yield('meta_tw_image')" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{{ asset('frontend/assets/css/styles.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link href="{{ asset('frontend/assets/css/styles.css') }}" rel="stylesheet">
 </head>
 
 <body>
+    <!-- Global Variables -->
+    @php
+        $socialLinks = \App\Models\SocialLink::where('status', 1)->get();
+        $footerInfo = \App\Models\FooterInfo::where('language', getLanguage())->first();
+        $footerGridOne = \App\Models\FooterGridOne::where(['status' => 1, 'language' => getLanguage()])->get();
+        $footerGridTwo = \App\Models\FooterGridTwo::where(['status' => 1, 'language' => getLanguage()])->get();
+        $footerGridThree = \App\Models\FooterGridThree::where(['status' => 1, 'language' => getLanguage()])->get();
+        $footerGridOneTitle = \App\Models\FooterTitle::where(['key' => 'grid_one_title', 'language' => getLanguage()])->first();
+        $footerGridTwoTitle = \App\Models\FooterTitle::where(['key' => 'grid_two_title', 'language' => getLanguage()])->first();
+        $footerGridThreeTitle = \App\Models\FooterTitle::where(['key' => 'grid_three_title', 'language' => getLanguage()])->first();
+    @endphp
+
     <!-- Header news -->
     @include('frontend.layouts.header')
     <!-- End Header news -->
@@ -74,9 +86,11 @@
                         console.error(data);
                     }
                 })
-            })
+            });
         })
     </script>
+
+    @stack('scripts')
     @stack('delete-comment')
 </body>
 

@@ -364,7 +364,7 @@
                         </div>
                     </aside>
 
-                    {{-- @if ($ad->home_middle_ad_status == 1)
+                    @if ($ad->home_middle_ad_status == 1)
                         <div class="small_add_banner">
                             <div class="small_add_banner_img">
                                 <a href="{{ $ad->home_middle_ad_url }}">
@@ -372,7 +372,7 @@
                                 </a>
                             </div>
                         </div>
-                    @endif --}}
+                    @endif
 
                     <aside class="wrapper__list__article mt-5">
                         <h4 class="border_section">{{ @$categorySectionFour->first()->category->name }}</h4>
@@ -564,7 +564,7 @@
                             </div>
                         </aside>
 
-                        {{-- @if ($ad->side_bar_ad_status == 1)
+                        @if ($ad->side_bar_ad_status == 1)
                             <aside class="wrapper__list__article">
                                 <h4 class="border_section">{{ __('Advertise') }}</h4>
                                 <a href="{{ $ad->side_bar_ad_url }}">
@@ -573,7 +573,7 @@
                                     </figure>
                                 </a>
                             </aside>
-                        @endif --}}
+                        @endif
 
                         <aside class="wrapper__list__article">
                             <h4 class="border_section">{{ __('newsletter') }}</h4>
@@ -603,3 +603,45 @@
         </div>
     </div>
 </section>
+
+@push('scripts')
+    <script src="{{ asset('admin/assets/modules/sweetalert/sweetalert.min.js') }}"></script>
+    <script>
+        $('.newsletter-form').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('subscribe-newsletter') }}",
+                data: $(this).serialize(),
+                beforeSend: function() {
+                    $('.newsletter-button').text('loading...');
+                    $('.newsletter-button').attr('disabled', true);
+                },
+                success: function(data) {
+                    if (data.status === 'success') {
+                        swal({
+                            title: data.message,
+                            icon: 'success',
+                        })
+                        $('.newsletter-form')[0].reset();
+                        $('.newsletter-button').text('sign up');
+                        $('.newsletter-button').attr('disabled', false);
+                    }
+                },
+                error: function(data) {
+                    $('.newsletter-button').text('sign up');
+                    $('.newsletter-button').attr('disabled', false);
+                    if (data.status === 422) {
+                        let errors = data.responseJSON.errors;
+                        $.each(errors, function(index, value) {
+                            swal({
+                                title: value[0],
+                                icon: 'error',
+                            });
+                        })
+                    }
+                }
+            })
+        });
+    </script>
+@endpush

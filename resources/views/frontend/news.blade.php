@@ -267,7 +267,7 @@
                             </div>
                         </aside>
 
-                        {{-- @if ($ad->side_bar_ad_status == 1)
+                        @if ($ad->side_bar_ad_status == 1)
                             <aside class="wrapper__list__article">
                                 <h4 class="border_section">{{ __('Advertise') }}</h4>
                                 <a href="{{ $ad->side_bar_ad_url }}">
@@ -276,14 +276,14 @@
                                     </figure>
                                 </a>
                             </aside>
-                        @endif --}}
+                        @endif
                     </div>
                 </div>
 
                 <div class="clearfix"></div>
             </div>
         </div>
-        {{-- @if ($ad->news_page_ad_status == 1)
+        @if ($ad->news_page_ad_status == 1)
             <div class="large_add_banner my-4">
                 <div class="container">
                     <div class="row">
@@ -297,6 +297,48 @@
                     </div>
                 </div>
             </div>
-        @endif --}}
+        @endif
     </section>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('admin/assets/modules/sweetalert/sweetalert.min.js') }}"></script>
+    <script>
+        $('.newsletter-form').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('subscribe-newsletter') }}",
+                data: $(this).serialize(),
+                beforeSend: function() {
+                    $('.newsletter-button').text('loading...');
+                    $('.newsletter-button').attr('disabled', true);
+                },
+                success: function(data) {
+                    if (data.status === 'success') {
+                        swal({
+                            title: data.message,
+                            icon: 'success',
+                        })
+                        $('.newsletter-form')[0].reset();
+                        $('.newsletter-button').text('sign up');
+                        $('.newsletter-button').attr('disabled', false);
+                    }
+                },
+                error: function(data) {
+                    $('.newsletter-button').text('sign up');
+                    $('.newsletter-button').attr('disabled', false);
+                    if (data.status === 422) {
+                        let errors = data.responseJSON.errors;
+                        $.each(errors, function(index, value) {
+                            swal({
+                                title: value[0],
+                                icon: 'error',
+                            });
+                        })
+                    }
+                }
+            })
+        });
+    </script>
+@endpush

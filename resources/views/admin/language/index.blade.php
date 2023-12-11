@@ -111,7 +111,8 @@
                                             location.reload();
                                         });
                                     } else if (data.status === 'error') {
-                                        swal(data.message, {
+                                        swal({
+                                            title: data.message,
                                             icon: 'error',
                                         });
                                     }

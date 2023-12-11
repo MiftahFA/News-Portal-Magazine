@@ -8,40 +8,19 @@
                         <div class="col-md-4">
                             <div class="widget__footer">
                                 <figure class="image-logo">
-                                    <img src="images/logo2.png" alt="" class="logo-footer">
+                                    <img src="{{ asset(@$footerInfo->logo) }}" alt="" class="logo-footer">
                                 </figure>
-
-                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius magnam harum iure
-                                    officia laudantium impedit voluptatem.</p>
-
-
+                                <p>{{ @$footerInfo->description }}</p>
                                 <div class="social__media mt-4">
                                     <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-social rounded text-white facebook">
-                                                <i class="fa fa-facebook"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-social rounded text-white twitter">
-                                                <i class="fa fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-social rounded text-white whatsapp">
-                                                <i class="fa fa-whatsapp"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-social rounded text-white telegram">
-                                                <i class="fa fa-telegram"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-social rounded text-white linkedin">
-                                                <i class="fa fa-linkedin"></i>
-                                            </a>
-                                        </li>
+                                        @foreach ($socialLinks as $link)
+                                            <li class="list-inline-item">
+                                                <a href="{{ $link->url }}"
+                                                    class="btn btn-social rounded text-white facebook">
+                                                    <i class="{{ $link->icon }}"></i>
+                                                </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -50,31 +29,16 @@
                             <div class="widget__footer">
                                 <div class="dropdown-footer">
                                     <h4 class="footer-title">
-                                        entertainment
+                                        {{ @$footerGridOneTitle->value }}
                                         <span class="fa fa-angle-down"></span>
                                     </h4>
-
                                 </div>
-
                                 <ul class="list-unstyled option-content is-hidden">
-                                    <li>
-                                        <a href="#">celebity news</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">movies</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">tv news</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">music news</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">life style</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">entertainment video</a>
-                                    </li>
+                                    @foreach ($footerGridOne as $gridOne)
+                                        <li>
+                                            <a href="{{ $gridOne->url }}">{{ $gridOne->name }}</a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -82,28 +46,16 @@
                             <div class="widget__footer">
                                 <div class="dropdown-footer">
                                     <h4 class="footer-title">
-                                        health
+                                        {{ @$footerGridTwoTitle->value }}
                                         <span class="fa fa-angle-down"></span>
                                     </h4>
-
                                 </div>
                                 <ul class="list-unstyled option-content is-hidden">
-                                    <li>
-                                        <a href="#">medical research</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">healthy living</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">mental health</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">virus corona</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">children's health</a>
-                                    </li>
-
+                                    @foreach ($footerGridTwo as $gridTwo)
+                                        <li>
+                                            <a href="{{ $gridTwo->url }}">{{ $gridTwo->name }}</a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -111,29 +63,16 @@
                             <div class="widget__footer">
                                 <div class="dropdown-footer">
                                     <h4 class="footer-title">
-                                        business
+                                        {{ @$footerGridThreeTitle->value }}
                                         <span class="fa fa-angle-down"></span>
                                     </h4>
-
                                 </div>
-
                                 <ul class="list-unstyled option-content is-hidden">
-                                    <li>
-                                        <a href="#">merkets</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">technology</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">features</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">property</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">business leaders</a>
-                                    </li>
-
+                                    @foreach ($footerGridThree as $gridThree)
+                                        <li>
+                                            <a href="{{ $gridThree->url }}">{{ $gridThree->name }}</a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -148,14 +87,11 @@
                         <div class="col-md-12">
                             <div class="border-top-1 bg__footer-bottom-section">
                                 <p class="text-white text-center">
-                                    Copyright © 2023 Top News Theme by WebSolutionUS</p>
-
+                                    {{ @$footerInfo->copyright }}</p>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
             </div>
         </footer>
     </div>

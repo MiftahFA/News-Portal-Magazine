@@ -30,7 +30,7 @@
                     <div class="form-group">
                         <label for="">{{ __('Icon') }}</label>
                         <br>
-                        <button class="btn btn-primary" name="icon" role="iconpicker" ddata-search="true"
+                        <button class="btn btn-primary" name="icon" role="iconpicker" data-search="true"
                             data-search-text="Search..." style="height: 40px"></button>
                         @error('icon')
                             <p class="text-danger">{{ $message }}</p>

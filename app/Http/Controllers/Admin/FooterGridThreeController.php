@@ -11,27 +11,18 @@ use Illuminate\Http\Request;
 
 class FooterGridThreeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $languages = Language::all();
         return view('admin.footer-grid-three.index', compact('languages'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $languages = Language::all();
         return view('admin.footer-grid-three.create', compact('languages'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(FooterGridOneRequest $request)
     {
         $footer = new FooterGridThree();
@@ -45,9 +36,6 @@ class FooterGridThreeController extends Controller
         return redirect()->route('admin.footer-grid-three.index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $languages = Language::all();
@@ -55,9 +43,6 @@ class FooterGridThreeController extends Controller
         return view('admin.footer-grid-three.edit', compact('footer', 'languages'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(FooterGridOneRequest $request, string $id)
     {
         $footer = FooterGridThree::findOrFail($id);
@@ -71,9 +56,6 @@ class FooterGridThreeController extends Controller
         return redirect()->route('admin.footer-grid-three.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         FooterGridThree::findOrFail($id)->delete();

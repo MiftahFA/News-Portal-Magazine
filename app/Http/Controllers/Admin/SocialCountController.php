@@ -10,27 +10,19 @@ use App\Models\SocialCount;
 
 class SocialCountController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $languages = Language::all();
         return view('admin.social-count.index', compact('languages'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $languages = Language::all();
         return view('admin.social-count.create', compact('languages'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(AdminSocialCountStoreRequest $request)
     {
         $socialCount = new SocialCount();
@@ -45,13 +37,9 @@ class SocialCountController extends Controller
         $socialCount->save();
 
         toast(__('Created Successfully!'), 'success');
-
         return redirect()->route('admin.social-count.index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $languages = Language::all();
@@ -59,9 +47,6 @@ class SocialCountController extends Controller
         return view('admin.social-count.edit', compact('languages', 'socialCount'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(AdminSocialCountUpdateRequest $request, string $id)
     {
         $socialCount = SocialCount::findOrFail($id);
@@ -76,18 +61,13 @@ class SocialCountController extends Controller
         $socialCount->save();
 
         toast(__('Update Successfully!'), 'success');
-
         return redirect()->route('admin.social-count.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $socialCount = SocialCount::findOrFail($id);
         $socialCount->delete();
-
         return response(['status' => 'success', 'message' => __('Deleted Successfully!')]);
     }
 }

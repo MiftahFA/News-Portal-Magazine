@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminContactUpdateRequest;
 use App\Models\Contact;
 use App\Models\Language;
-use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {

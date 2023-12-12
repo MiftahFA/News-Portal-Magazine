@@ -12,18 +12,13 @@ use Illuminate\Support\Facades\Auth;
 class ProfileController extends Controller
 {
     use FileUploadTrait;
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $user = Auth::guard('admin')->user();
         return view('admin.profile.index', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(AdminProfileUpdateRequest $request, string $id)
     {
         $imagePath = $this->handleFileUpload($request, 'image', $request->old_image);
@@ -33,7 +28,6 @@ class ProfileController extends Controller
         $admin->email = $request->email;
         $admin->save();
         toast(__('Updated Succesfully'), 'success')->width('400');
-
         return redirect()->back();
     }
 
@@ -42,8 +36,8 @@ class ProfileController extends Controller
         $admin = Admin::findOrFail($id);
         $admin->password = bcrypt($request->password);
         $admin->save();
-        toast(__('Updated Succesfully'), 'success')->width('400');
 
+        toast(__('Updated Succesfully'), 'success')->width('400');
         return redirect()->back();
     }
 }

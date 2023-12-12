@@ -17,9 +17,7 @@ use App\Traits\FileUploadTrait;
 class NewsController extends Controller
 {
     use FileUploadTrait;
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $languages = Language::all();
@@ -32,18 +30,12 @@ class NewsController extends Controller
         return $categories;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $languages = Language::all();
         return view('admin.news.create', compact('languages'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(AdminNewsCreateRequest $request)
     {
         $imagePath = $this->handleFileUpload($request, 'image');
@@ -81,9 +73,6 @@ class NewsController extends Controller
         return redirect()->route('admin.news.index');
     }
 
-    /**
-     * Change toggle status of news
-     */
     public function toggleNewsStatus(Request $request)
     {
         try {
@@ -96,9 +85,6 @@ class NewsController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $languages = Language::all();
@@ -115,9 +101,6 @@ class NewsController extends Controller
         return view('admin.news.edit', compact('languages', 'news', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(AdminNewsUpdateRequest $request, string $id)
     {
         $news = News::findOrFail($id);
@@ -126,7 +109,6 @@ class NewsController extends Controller
         //     return abort(404);
         // }
 
-        /** Handle image */
         $imagePath = $this->handleFileUpload($request, 'image');
 
         $news->language = $request->language;
@@ -146,10 +128,8 @@ class NewsController extends Controller
         $tags = explode(',', $request->tags);
         $tagIds = [];
 
-        /** Delete previos tags */
         $news->tags()->delete();
 
-        /** detach tags form pivot table */
         $news->tags()->detach($news->tags);
 
         foreach ($tags as $tag) {
@@ -165,9 +145,6 @@ class NewsController extends Controller
         return redirect()->route('admin.news.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $news = News::findOrFail($id);
@@ -180,9 +157,6 @@ class NewsController extends Controller
         return response(['status' => 'success', 'message' => __('Deleted Successfully!')]);
     }
 
-    /**
-     * Copy news
-     */
     public function copyNews(string $id)
     {
         $news = News::findOrFail($id);

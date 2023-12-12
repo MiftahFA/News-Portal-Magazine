@@ -10,18 +10,13 @@ use Illuminate\Support\Facades\Mail;
 
 class SubscriberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $subs = Subscriber::all();
         return view('admin.subscriber.index', compact('subs'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -35,9 +30,6 @@ class SubscriberController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         Subscriber::findOrFail($id)->delete();

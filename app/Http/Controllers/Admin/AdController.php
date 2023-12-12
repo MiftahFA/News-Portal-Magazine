@@ -10,18 +10,13 @@ use App\Traits\FileUploadTrait;
 class AdController extends Controller
 {
     use FileUploadTrait;
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $ad = Ad::first();
         return view('admin.ad.index', compact('ad'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(AdminAdUpdateRequest $request, string $id)
     {
         $home_top_bar_ad = $this->handleFileUpload($request, 'home_top_bar_ad');

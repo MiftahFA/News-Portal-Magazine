@@ -11,18 +11,13 @@ use Illuminate\Http\Request;
 class FooterInfoController extends Controller
 {
     use FileUploadTrait;
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $languages = Language::all();
         return view('admin.footer-info.index', compact('languages'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([

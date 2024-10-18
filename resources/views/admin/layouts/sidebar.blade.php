@@ -14,8 +14,8 @@
         <ul class="sidebar-menu">
             <li class="menu-header">{{ __('Dashboard') }}</li>
             <li class="active">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link"><i class="fas fa-fire"></i><span>{{
-                        __('Dashboard') }}</span></a>
+                <a href="{{ route('admin.dashboard') }}" class="nav-link"><i
+                        class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
             </li>
             <li class="menu-header">{{ __('Starter') }}</li>
 
@@ -62,14 +62,14 @@
             {{-- @endif --}}
 
             @php
-            $unReadMessages = \App\Models\RecivedMail::where('seen', 0)->count();
+                $unReadMessages = \App\Models\RecivedMail::where('seen', 0)->count();
             @endphp
             {{-- @if (canAccess(['contact message index'])) --}}
             <li class="{{ setSidebarActive(['admin.contact-message.*']) }}"><a class="nav-link"
                     href="{{ route('admin.contact-message.index') }}"><i class="fas fa-id-card-alt"></i>
                     <span>{{ __('Contact Messages') }} </span>
                     @if ($unReadMessages > 0)
-                    <i class="badge bg-danger" style="color:#fff">{{ $unReadMessages }}</i>
+                        <i class="badge bg-danger" style="color:#fff">{{ $unReadMessages }}</i>
                     @endif
                 </a></li>
             {{-- @endif --}}
@@ -94,13 +94,14 @@
             {{-- @endif --}}
 
             {{-- @if (canAccess(['footer index'])) --}}
-            <li class="dropdown
+            <li
+                class="dropdown
                 {{ setSidebarActive([
                     'admin.social-link.*',
                     'admin.footer-info.*',
                     'admin.footer-grid-one.*',
                     'admin.footer-grid-three.*',
-                    'admin.footer-grid-two.*'
+                    'admin.footer-grid-two.*',
                 ]) }}
             ">
                 <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i>
@@ -121,12 +122,10 @@
             </li>
             {{-- @endif --}}
 
-            {{-- @if (canAccess(['access management index']))
-            <li class="dropdown
-                {{ setSidebarActive([
-                    'admin.role.*',
-                    'admin.role-users.*'
-                    ]) }}
+            {{-- @if (canAccess(['access management index'])) --}}
+            <li
+                class="dropdown
+                {{ setSidebarActive(['admin.role.*', 'admin.role-users.*']) }}
             ">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-user-shield"></i>
                     <span>{{ __('Access Management') }}</span></a>
@@ -137,7 +136,7 @@
                             href="{{ route('admin.role.index') }}">{{ __('Roles and Permissions') }}</a></li>
                 </ul>
             </li>
-            @endif --}}
+            {{-- @endif --}}
 
             {{-- @if (canAccess(['setting index'])) --}}
             <li class="{{ setSidebarActive(['admin.setting.*']) }}"><a class="nav-link"

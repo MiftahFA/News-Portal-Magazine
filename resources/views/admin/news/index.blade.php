@@ -42,12 +42,7 @@
                             $news = \App\Models\News::with('category')
                                 ->where('language', $language->lang)
                                 ->where('is_approved', 1)
-                                ->where(
-                                    'auther_id',
-                                    auth()
-                                        ->guard('admin')
-                                        ->user()->id,
-                                )
+                                ->where('auther_id', auth()->guard('admin')->user()->id)
                                 ->orderBy('created_at', 'DESC')
                                 ->get();
                             // }
@@ -125,8 +120,6 @@
                                                             <span class="custom-switch-indicator"></span>
                                                         </label>
                                                     </td>
-
-
                                                     <td>
                                                         <a href="{{ route('admin.news.edit', $item->id) }}"
                                                             class="btn btn-primary"><i class="fas fa-edit"></i></a>

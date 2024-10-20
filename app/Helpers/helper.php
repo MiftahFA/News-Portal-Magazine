@@ -68,26 +68,19 @@ function setSidebarActive(array $routes): ?string
 
 /** get Setting */
 
-// function getSetting($key)
-// {
-//     $data = Setting::where('key', $key)->first();
-//     return $data->value;
-// }
+function getSetting($key)
+{
+    $data = Setting::where('key', $key)->first();
+    return $data->value;
+}
 
 /** check permission */
 
-// function canAccess(array $permissions)
-// {
-
-//     $permission = auth()->guard('admin')->user()->hasAnyPermission($permissions);
-//     $superAdmin = auth()->guard('admin')->user()->hasRole('Super Admin');
-
-//     if ($permission || $superAdmin) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
+function canAccess(array $permissions)
+{
+    $user = auth()->guard('admin')->user();
+    return $user->hasAnyPermission($permissions) || $user->hasRole('Super Admin');
+}
 
 /** get admin role */
 

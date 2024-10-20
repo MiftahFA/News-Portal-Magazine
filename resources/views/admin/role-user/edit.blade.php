@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-
+<link rel="stylesheet" href="{{ asset('admin/assets/modules/select2/dist/css/select2.min.css') }}">
 @section('content')
     <section class="section">
         <div class="section-header">
@@ -60,3 +60,6 @@
         </div>
     </section>
 @endsection
+@push('scripts')
+    <script src="{{ asset('admin/assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
+@endpush

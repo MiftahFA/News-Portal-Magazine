@@ -11,6 +11,12 @@ class AdController extends Controller
 {
     use FileUploadTrait;
 
+    public function __construct()
+    {
+        $this->middleware(['permission:advertisement index,admin'])->only(['index']);
+        $this->middleware(['permission:advertisement update,admin'])->only(['update']);
+    }
+
     public function index()
     {
         $ad = Ad::first();
@@ -30,7 +36,10 @@ class AdController extends Controller
             ['id' => $id],
             [
                 'home_top_bar_ad' => !empty($home_top_bar_ad) ? $home_top_bar_ad : $ad->home_top_bar_ad,
-                'home_middle_ad' => !empty($home_middle_ad) ? $home_middle_ad : $ad->home_middle_ad, 'view_page_ad' => !empty($view_page_ad) ? $view_page_ad : $ad->view_page_ad, 'news_page_ad' => !empty($news_page_ad) ? $news_page_ad : $ad->news_page_ad, 'side_bar_ad' => !empty($side_bar_ad) ? $side_bar_ad : $ad->side_bar_ad,
+                'home_middle_ad' => !empty($home_middle_ad) ? $home_middle_ad : $ad->home_middle_ad,
+                'view_page_ad' => !empty($view_page_ad) ? $view_page_ad : $ad->view_page_ad,
+                'news_page_ad' => !empty($news_page_ad) ? $news_page_ad : $ad->news_page_ad,
+                'side_bar_ad' => !empty($side_bar_ad) ? $side_bar_ad : $ad->side_bar_ad,
                 'home_top_bar_ad_status' => $request->home_top_bar_ad_status == 1 ? 1 : 0,
                 'home_middle_ad_status' => $request->home_middle_ad_status == 1 ? 1 : 0,
                 'view_page_ad_status' => $request->view_page_ad_status == 1 ? 1 : 0,

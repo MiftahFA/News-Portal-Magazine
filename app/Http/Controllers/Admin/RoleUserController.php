@@ -5,11 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRoleUserStoreRequest;
 use App\Http\Requests\AdminRoleUserUpdateRequest;
+use App\Mail\RoleUserCreateMail;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 
 class RoleUserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:access management index,admin'])->only(['index']);
+        $this->middleware(['permission:access management create,admin'])->only(['create', 'store']);
+        $this->middleware(['permission:access management update,admin'])->only(['edit', 'update']);
+        $this->middleware(['permission:access management destroy,admin'])->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -46,7 +56,7 @@ class RoleUserController extends Controller
             $user->assignRole($request->role);
 
             /** send mail to the user */
-            // Mail::to($request->email)->send(new RoleUserCreateMail($request->email, $request->password));
+            Mail::to($request->email)->send(new RoleUserCreateMail($request->email, $request->password));
 
             toast(__('Created Successfully!'), 'success');
             return redirect()->route('admin.role-users.index');
@@ -80,7 +90,7 @@ class RoleUserController extends Controller
     {
         if ($request->has('password') && !empty($request->password)) {
             $request->validate([
-                'password' => ['confirmed', 'min:6']
+                'password' => 'confirmed|min:6'
             ]);
         }
 

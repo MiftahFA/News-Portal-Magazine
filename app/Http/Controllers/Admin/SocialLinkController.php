@@ -1,12 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminSocialLinkRequest;
 use App\Models\SocialLink;
 
 class SocialLinkController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:footer index,admin'])->only(['index']);
+        $this->middleware(['permission:footer create,admin'])->only(['create', 'store']);
+        $this->middleware(['permission:footer update,admin'])->only(['edit', 'update']);
+        $this->middleware(['permission:footer destroy,admin'])->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

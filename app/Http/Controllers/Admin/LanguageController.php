@@ -9,6 +9,14 @@ use App\Models\Language;
 
 class LanguageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:languages index,admin'])->only(['index']);
+        $this->middleware(['permission:languages create,admin'])->only(['create']);
+        $this->middleware(['permission:languages update,admin'])->only(['update']);
+        $this->middleware(['permission:languages delete,admin'])->only(['destroy']);
+    }
+
     public function index()
     {
         $languages = Language::all();

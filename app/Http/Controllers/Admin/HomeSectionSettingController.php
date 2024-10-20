@@ -9,6 +9,12 @@ use App\Models\Language;
 
 class HomeSectionSettingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:home section index,admin'])->only(['index']);
+        $this->middleware(['permission:home section update,admin'])->only(['update']);
+    }
+
     public function index()
     {
         $languages = Language::all();

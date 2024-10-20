@@ -45,8 +45,8 @@
                                         @if ($admin->getRoleNames()->first() != 'Super Admin')
                                             <a href="{{ route('admin.role-users.edit', $admin->id) }}"
                                                 class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                            <a href="{{ route('admin.role-users.destroy', $admin->id) }}"
-                                                class="btn btn-danger delete-item"><i class="fas fa-trash-alt"></i></a>
+                                            <a href="javascript:void(0);" class="btn btn-danger delete-item"
+                                                data-id="{{ $admin->id }}"><i class="fas fa-trash-alt"></i></a>
                                         @endif
                                     </td>
                                 </tr>
@@ -65,11 +65,58 @@
     </script>
     <script src="{{ asset('admin/assets/modules/sweetalert/sweetalert.min.js') }}"></script>
     <script>
-        $("#table").dataTable({
-            "columnDefs": [{
-                "sortable": false,
-                "targets": [4]
-            }]
+        $(document).ready(function() {
+            $("#table").dataTable({
+                "columnDefs": [{
+                    "sortable": false,
+                    "targets": [4]
+                }]
+            });
+            $('.delete-item').on('click', function(e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+                swal({
+                    title: '{{ __('Are you sure?') }}',
+                    text: "{!! __("You won't be able to revert this!") !!}",
+                    icon: 'warning',
+                    buttons: {
+                        confirm: {
+                            text: '{{ __('Yes, delete it!') }}',
+                            confirmButtonColor: '#3085d6'
+                        },
+                        cancel: {
+                            text: '{{ __('No, cancel!') }}',
+                            visible: true,
+                            cancelButtonColor: '#d33'
+                        }
+                    },
+                    dangerMode: true
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            method: 'DELETE',
+                            url: "{{ route('admin.role-users.destroy', '') }}/" + id,
+                            success: function(data) {
+                                if (data.status === 'success') {
+                                    swal({
+                                        title: data.message,
+                                        icon: 'success',
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else if (data.status === 'error') {
+                                    swal(data.message, {
+                                        icon: 'error',
+                                    });
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+                    }
+                })
+            })
         });
     </script>
 @endpush

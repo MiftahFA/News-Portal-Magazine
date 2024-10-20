@@ -9,6 +9,12 @@ use App\Models\Language;
 
 class ContactController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:contact index,admin'])->only(['index']);
+        $this->middleware(['permission:contact update,admin'])->only(['update']);
+    }
+
     public function index()
     {
         $languages = Language::all();
